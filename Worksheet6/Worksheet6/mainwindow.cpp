@@ -1,6 +1,9 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QMessageBox>
+#include <QFileDialog>
+#include <QFileInfo>
+#include "optiondialog.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -12,7 +15,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     /* Link it to the treeview in the GUI */
     ui->treeView->setModel(this->partList);
-
+  ui->treeView->addAction(ui->actionItemOptions);
     /* Manually create a model tree (quick example) */
     ModelPart* rootItem = this->partList->getRootItem();
 
@@ -33,6 +36,14 @@ MainWindow::MainWindow(QWidget *parent)
             childItem->appendChild(childChildItem);
         }
     }
+
+    connect(ui->actionOpen, &QAction::triggered, this, &MainWindow::on_actionOpen_triggered);
+    connect(ui->actionSave, &QAction::triggered, this, &MainWindow::on_actionSave_triggered);
+    connect(ui->actionExit, &QAction::triggered, this, &MainWindow::on_actionExit_triggered
+            );
+
+
+
     connect(ui->treeView, &QTreeView::clicked,
             this, &MainWindow::handleTreeClicked);
 
@@ -63,6 +74,22 @@ void MainWindow::handleTreeClicked(const QModelIndex &index)
     ModelPart* selectedPart = static_cast<ModelPart*>(index.internalPointer());
     QString text = selectedPart->data(0).toString();
     emit statusUpdateMessage(QString("The selected item is: ") + text, 0);
+}
+
+void MainWindow::on_actionOpen_triggered()
+{
+    OptionDialog dlg(this);
+    dlg.exec();
+}
+
+void MainWindow::on_actionSave_triggered()
+{
+    // your save code here (QFileDialog::getSaveFileName...)
+}
+
+void MainWindow::on_actionExit_triggered()
+{
+    close();
 }
 
 

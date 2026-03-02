@@ -30,8 +30,16 @@ private slots:
 
     void handleTreeClicked(const QModelIndex &index);
 
+
+
+
+
 private:
     Ui::MainWindow *ui;
+
+    void on_actionOpen_triggered();
+    void on_actionSave_triggered();
+    void on_actionExit_triggered();
 };
 #endif // MAINWINDOW_H
 

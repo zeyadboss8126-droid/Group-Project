@@ -13,6 +13,10 @@
 #include <QString>
 #include <QList>
 #include <QVariant>
+#include <QColor>
+
+
+
 
 /* VTK headers - will be needed when VTK used in next worksheet,
  * commented out for now
@@ -125,6 +129,14 @@ public:
       * @return pointer to new actor
       */
     //vtkActor* getNewActor();
+    QString getName() const;
+    QColor getColour() const;
+    bool getVisible() const;
+
+    void setName(const QString& name);
+    void setColour(int r, int g, int b);
+
+
 
 private:
     QList<ModelPart*>                           m_childItems;       /**< List (array) of child items */
@@ -143,6 +155,9 @@ private:
     //vtkSmartPointer<vtkMapper>                  mapper;             /**< Mapper for rendering */
     //vtkSmartPointer<vtkActor>                   actor;              /**< Actor for rendering */
     //vtkColor3<unsigned char>                    colour;             /**< User defineable colour */
+    QString m_name;
+    QColor  m_colour;
+    bool    m_visible;
 };  
 
 

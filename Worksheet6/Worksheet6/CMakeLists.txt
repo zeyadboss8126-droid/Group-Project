@@ -15,6 +15,8 @@ qt_add_executable(Worksheet6
     ModelPart.h 
     ModelPartList.cpp
     ModelPartList.h
+    resources.qrc
+    optiondialog.h optiondialog.cpp optiondialog.ui
 )
 
 target_link_libraries(Worksheet6
@@ -37,3 +39,4 @@ qt_generate_deploy_app_script(
     NO_UNSUPPORTED_PLATFORM_ERROR
 )
 install(SCRIPT ${deploy_script})
+

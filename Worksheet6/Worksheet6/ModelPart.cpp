@@ -10,6 +10,7 @@
 #include "ModelPart.h"
 
 
+
 /* Commented out for now, will be uncommented later when you have
  * installed the VTK library
  */
@@ -183,4 +184,31 @@ void ModelPart::loadSTL( QString fileName ) {
 //    return nullptr;
     
 //}
+QString ModelPart::getName() const
+{
+    return m_name;
+}
+
+QColor ModelPart::getColour() const
+{
+    return m_colour;
+}
+
+bool ModelPart::getVisible() const
+{
+    return m_visible;
+}
+
+void ModelPart::setName(const QString& name)
+{
+    m_name = name;
+}
+
+void ModelPart::setColour(int r, int g, int b)
+{
+    m_colour = QColor(r, g, b);
+}
+
+
+
 
