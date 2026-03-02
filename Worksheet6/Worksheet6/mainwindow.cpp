@@ -33,6 +33,8 @@ MainWindow::MainWindow(QWidget *parent)
             childItem->appendChild(childChildItem);
         }
     }
+    connect(ui->treeView, &QTreeView::clicked,
+            this, &MainWindow::handleTreeClicked);
 
     connect(this, &MainWindow::statusUpdateMessage,
             ui->statusbar, &QStatusBar::showMessage);
@@ -54,6 +56,13 @@ void MainWindow::on_Button2_clicked()
 QMessageBox::information(this, "Button 2", "You clicked Button 2");
 emit statusUpdateMessage("Button 2 clicked", 2000);
 
+}
+
+void MainWindow::handleTreeClicked(const QModelIndex &index)
+{
+    ModelPart* selectedPart = static_cast<ModelPart*>(index.internalPointer());
+    QString text = selectedPart->data(0).toString();
+    emit statusUpdateMessage(QString("The selected item is: ") + text, 0);
 }
 
 

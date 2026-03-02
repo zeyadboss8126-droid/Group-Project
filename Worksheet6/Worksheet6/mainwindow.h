@@ -2,7 +2,7 @@
 #define MAINWINDOW_H
 #include "ModelPart.h"
 #include "ModelPartList.h"
-
+#include <QModelIndex>
 #include <QMainWindow>
 
 QT_BEGIN_NAMESPACE
@@ -28,7 +28,11 @@ private slots:
 
     void on_Button2_clicked();
 
+    void handleTreeClicked(const QModelIndex &index);
+
 private:
     Ui::MainWindow *ui;
 };
 #endif // MAINWINDOW_H
+
+
