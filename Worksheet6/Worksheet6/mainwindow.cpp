@@ -4,6 +4,8 @@
 #include <QFileDialog>
 #include <QFileInfo>
 #include "optiondialog.h"
+#include "ModelPart.h"
+
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -25,6 +27,7 @@ MainWindow::MainWindow(QWidget *parent)
         QString name = QString("TopLevel %1").arg(i);
         QString visible("true");
 
+
         ModelPart* childItem = new ModelPart({name, visible});
         rootItem->appendChild(childItem);
 
@@ -41,7 +44,10 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->actionOpen, &QAction::triggered, this, &MainWindow::on_actionOpen_triggered);
     connect(ui->actionSave, &QAction::triggered, this, &MainWindow::on_actionSave_triggered);
     connect(ui->actionExit, &QAction::triggered, this, &MainWindow::on_actionExit_triggered
+
             );
+
+
     connect(ui->actionItem_Options, &QAction::triggered,
             this, &MainWindow::on_actionItem_Options_triggered);
 
@@ -81,8 +87,40 @@ void MainWindow::handleTreeClicked(const QModelIndex &index)
 
 void MainWindow::on_actionOpen_triggered()
 {
-    OptionDialog dlg(this);
-    dlg.exec();
+    // 1) Require a selected tree item
+    QModelIndex index = ui->treeView->currentIndex();
+    if (!index.isValid()) {
+        emit statusUpdateMessage("Select an item in the tree first", 2000);
+        return;
+    }
+
+    ModelPart* part = static_cast<ModelPart*>(index.internalPointer());
+    if (!part) return;
+
+    // 2) Pick a file
+    QString path = QFileDialog::getOpenFileName(
+        this,
+        tr("Open file"),
+        "",
+        tr("All Files (*.*)")
+        );
+
+    if (path.isEmpty())
+        return;
+
+    // 3) Rename the selected item to the filename
+    QFileInfo info(path);
+    part->setName(info.fileName());           // e.g. "thing.stl"
+    // part->setName(info.completeBaseName()); // use this instead if you want no extension
+
+    // 4) Tell the view the name column changed (column 0)
+    QModelIndex nameIndex = index.sibling(index.row(), 0);
+    emit ui->treeView->model()->dataChanged(nameIndex, nameIndex);
+
+    emit statusUpdateMessage("Renamed item to " + info.fileName(), 2000);
+
+    // Optional for later (if you implement it):
+    // part->loadSTL(path);
 }
 
 void MainWindow::on_actionSave_triggered()
@@ -113,8 +151,7 @@ void MainWindow::on_actionItem_Options_triggered()
 
         // refresh both columns: 0 = Part name, 1 = Visible?
         QModelIndex left  = index.sibling(index.row(), 0);
-        QModelIndex right = index.sibling(index.row(), 1);
-
+        QModelIndex right = index.sibling(index.row(), 2);
         emit ui->treeView->model()->dataChanged(left, right);
 
         emit statusUpdateMessage("Item updated", 2000);

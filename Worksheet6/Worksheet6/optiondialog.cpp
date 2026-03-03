@@ -1,6 +1,9 @@
+// optiondialog.cpp
 #include "optiondialog.h"
 #include "ui_optiondialog.h"
+
 #include "ModelPart.h"
+#include <QColor>
 
 OptionDialog::OptionDialog(QWidget *parent)
     : QDialog(parent),
@@ -14,51 +17,43 @@ OptionDialog::~OptionDialog()
     delete ui;
 }
 
-void OptionDialog::loadFromPart(ModelPart* part)
+void OptionDialog::setModelPart(ModelPart* part)
 {
-    ui->lineEditName->setText(part->getName());
+    m_part = part;
+    if (!m_part) return;
 
-    QColor c = part->getColour();
-    ui->spinR->setValue(c.red());
-    ui->spinG->setValue(c.green());
-    ui->spinB->setValue(c.blue());
+    ui->lineEditName->setText(m_part->data(0).toString());
 
-    ui->checkVisible->setChecked(part->getVisible());
+    QString visText = m_part->data(1).toString().trimmed().toLower();
+    bool visible = (visText == "true" || visText == "1" || visText == "yes");
+    ui->checkVisible->setChecked(visible);
+
+    // ✅ load colour from column 2 text "R,G,B"
+    QString colourText = m_part->data(2).toString().trimmed(); // e.g. "120,45,200"
+    int r = 0, g = 0, b = 0;
+    const QStringList parts = colourText.split(',', Qt::SkipEmptyParts);
+    if (parts.size() == 3) {
+        r = parts[0].trimmed().toInt();
+        g = parts[1].trimmed().toInt();
+        b = parts[2].trimmed().toInt();
+    }
+
+    ui->spinR->setValue(r);
+    ui->spinG->setValue(g);
+    ui->spinB->setValue(b);
 }
-
-void OptionDialog::saveToPart(ModelPart* part)
-{
-    part->setName(ui->lineEditName->text());
-    part->setColour(ui->spinR->value(), ui->spinG->value(), ui->spinB->value());
-    part->setVisible(ui->checkVisible->isChecked());
-}
-
-ModelPart* m_part = nullptr;
 
 void OptionDialog::accept()
 {
-    qDebug() << "ACCEPT CALLED";
-
-
-
     if (m_part)
     {
         m_part->setName(ui->lineEditName->text());
         m_part->setVisible(ui->checkVisible->isChecked());
-    }
 
+        // ✅ save colour too
+        m_part->setColour(ui->spinR->value(),
+                          ui->spinG->value(),
+                          ui->spinB->value());
+    }
     QDialog::accept();
 }
-
-void OptionDialog::setModelPart(ModelPart* part)
-{
-    m_part = part;
-
-
-    // Populate dialog fields from model
-    ui->lineEditName->setText(part->data(0).toString());
-    QString visText = part->data(1).toString().trimmed().toLower();
-    bool visible = (visText == "true" || visText == "1" || visText == "yes");
-    ui->checkVisible->setChecked(visible);
-}
-

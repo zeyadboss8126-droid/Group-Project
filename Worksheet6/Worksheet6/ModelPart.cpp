@@ -178,8 +178,10 @@ void ModelPart::setName(const QString& name)
 void ModelPart::setColour(int r, int g, int b)
 {
     m_colour = QColor(r, g, b);
-}
 
+    if (m_itemData.size() < 3) m_itemData.resize(3);
+    set(2, QString("%1,%2,%3").arg(r).arg(g).arg(b));  // <-- this is what the tree shows
+}
 
 
 
