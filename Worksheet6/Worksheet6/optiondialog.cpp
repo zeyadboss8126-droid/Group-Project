@@ -32,3 +32,33 @@ void OptionDialog::saveToPart(ModelPart* part)
     part->setColour(ui->spinR->value(), ui->spinG->value(), ui->spinB->value());
     part->setVisible(ui->checkVisible->isChecked());
 }
+
+ModelPart* m_part = nullptr;
+
+void OptionDialog::accept()
+{
+    qDebug() << "ACCEPT CALLED";
+
+
+
+    if (m_part)
+    {
+        m_part->setName(ui->lineEditName->text());
+        m_part->setVisible(ui->checkVisible->isChecked());
+    }
+
+    QDialog::accept();
+}
+
+void OptionDialog::setModelPart(ModelPart* part)
+{
+    m_part = part;
+
+
+    // Populate dialog fields from model
+    ui->lineEditName->setText(part->data(0).toString());
+    QString visText = part->data(1).toString().trimmed().toLower();
+    bool visible = (visText == "true" || visText == "1" || visText == "yes");
+    ui->checkVisible->setChecked(visible);
+}
+

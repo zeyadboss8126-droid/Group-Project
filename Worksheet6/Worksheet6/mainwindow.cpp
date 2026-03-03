@@ -15,7 +15,8 @@ MainWindow::MainWindow(QWidget *parent)
 
     /* Link it to the treeview in the GUI */
     ui->treeView->setModel(this->partList);
-  ui->treeView->addAction(ui->actionItemOptions);
+    ui->treeView->setContextMenuPolicy(Qt::ActionsContextMenu);
+    ui->treeView->addAction(ui->actionItem_Options);
     /* Manually create a model tree (quick example) */
     ModelPart* rootItem = this->partList->getRootItem();
 
@@ -41,6 +42,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->actionSave, &QAction::triggered, this, &MainWindow::on_actionSave_triggered);
     connect(ui->actionExit, &QAction::triggered, this, &MainWindow::on_actionExit_triggered
             );
+    connect(ui->actionItem_Options, &QAction::triggered,
+            this, &MainWindow::on_actionItem_Options_triggered);
 
 
 
@@ -93,3 +96,27 @@ void MainWindow::on_actionExit_triggered()
 }
 
 
+void MainWindow::on_actionItem_Options_triggered()
+{
+    QModelIndex index = ui->treeView->currentIndex();
+
+    if (!index.isValid())
+        return;
+
+    ModelPart* selectedPart =
+        static_cast<ModelPart*>(index.internalPointer());
+
+    OptionDialog dlg(this);
+    dlg.setModelPart(selectedPart);
+
+    if (dlg.exec() == QDialog::Accepted) {
+
+        // refresh both columns: 0 = Part name, 1 = Visible?
+        QModelIndex left  = index.sibling(index.row(), 0);
+        QModelIndex right = index.sibling(index.row(), 1);
+
+        emit ui->treeView->model()->dataChanged(left, right);
+
+        emit statusUpdateMessage("Item updated", 2000);
+    }
+}

@@ -15,6 +15,10 @@ public:
     void loadFromPart(ModelPart* part);
     void saveToPart(ModelPart* part);
 
+    void setModelPart(ModelPart* part);
+
 private:
     Ui::OptionDialog *ui;
+    void accept() override;
+     ModelPart *m_part = nullptr;
 };

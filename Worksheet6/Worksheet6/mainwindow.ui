@@ -141,7 +141,7 @@
     <enum>QAction::MenuRole::NoRole</enum>
    </property>
   </action>
-  <action name="actionItemOptions">
+  <action name="actionItem_Options">
    <property name="text">
     <string>Item Options</string>
    </property>
