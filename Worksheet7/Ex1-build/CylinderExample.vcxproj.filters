@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="18.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="C:\Users\zeyad\git\2025_20678032\Worksheet7\Exercise1\CylinderExample.cxx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\zeyad\git\2025_20678032\Worksheet7\Exercise1\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{5EE3570F-28E2-3C22-A9B1-1CADC9436926}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
