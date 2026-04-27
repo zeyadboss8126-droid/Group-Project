@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+	<class>MainWindow</class>
+	<widget class="QMainWindow" name="MainWindow">
+		<property name="geometry">
+			<rect>
+				<x>0</x>
+				<y>0</y>
+				<width>1000</width>
+				<height>600</height>
+			</rect>
+		</property>
+
+		<property name="windowTitle">
+			<string>MainWindow</string>
+		</property>
+
+		<widget class="QWidget" name="centralwidget">
+			<layout class="QVBoxLayout" name="verticalLayout">
+
+				<!-- MAIN AREA -->
+				<item>
+					<layout class="QHBoxLayout" name="horizontalLayout">
+
+						<!-- TREE VIEW -->
+						<item>
+							<widget class="QTreeView" name="treeView">
+								<property name="minimumSize">
+									<size>
+										<width>250</width>
+										<height>0</height>
+									</size>
+								</property>
+								<property name="maximumSize">
+									<size>
+										<width>300</width>
+										<height>16777215</height>
+									</size>
+								</property>
+							</widget>
+						</item>
+
+						<!-- VTK AREA -->
+						<item>
+							<widget class="QWidget" name="vtkPlaceholder">
+								<property name="minimumSize">
+									<size>
+										<width>400</width>
+										<height>400</height>
+									</size>
+								</property>
+								<property name="sizePolicy">
+									<sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+										<horstretch>1</horstretch>
+										<verstretch>1</verstretch>
+									</sizepolicy>
+								</property>
+							</widget>
+						</item>
+
+					</layout>
+				</item>
+
+				<!-- BUTTONS -->
+				<item>
+					<layout class="QHBoxLayout" name="horizontalLayout_2">
+
+						<item>
+							<widget class="QPushButton" name="Button1">
+								<property name="text">
+									<string>Button 1</string>
+								</property>
+							</widget>
+						</item>
+
+						<item>
+							<widget class="QPushButton" name="Button2">
+								<property name="text">
+									<string>Button 2</string>
+								</property>
+							</widget>
+						</item>
+
+						<item>
+							<spacer name="horizontalSpacer">
+								<property name="orientation">
+									<enum>Qt::Horizontal</enum>
+								</property>
+								<property name="sizeHint" stdset="0">
+									<size>
+										<width>40</width>
+										<height>20</height>
+									</size>
+								</property>
+							</spacer>
+						</item>
+
+					</layout>
+				</item>
+
+			</layout>
+		</widget>
+
+		<!-- MENU -->
+		<widget class="QMenuBar" name="menubar">
+			<property name="geometry">
+				<rect>
+					<x>0</x>
+					<y>0</y>
+					<width>1000</width>
+					<height>25</height>
+				</rect>
+			</property>
+
+			<widget class="QMenu" name="menuFile">
+				<property name="title">
+					<string>File</string>
+				</property>
+				<addaction name="actionOpen"/>
+				<addaction name="actionSave"/>
+				<addaction name="actionExit"/>
+			</widget>
+
+			<addaction name="menuFile"/>
+		</widget>
+
+		<!-- STATUS BAR -->
+		<widget class="QStatusBar" name="statusbar"/>
+
+		<!-- TOOLBAR -->
+		<widget class="QToolBar" name="mainToolBar">
+			<property name="windowTitle">
+				<string>toolBar</string>
+			</property>
+			<addaction name="actionOpen"/>
+			<addaction name="actionSave"/>
+			<addaction name="actionExit"/>
+		</widget>
+
+		<!-- ACTIONS -->
+		<action name="actionOpen">
+			<property name="text">
+				<string>open</string>
+			</property>
+		</action>
+
+		<action name="actionSave">
+			<property name="text">
+				<string>save</string>
+			</property>
+		</action>
+
+		<action name="actionExit">
+			<property name="text">
+				<string>exit</string>
+			</property>
+		</action>
+
+		<action name="actionItem_Options">
+			<property name="text">
+				<string>Item Options</string>
+			</property>
+		</action>
+
+	</widget>
+
+	<resources>
+		<include location="resources.qrc"/>
+	</resources>
+
+	<connections/>
+</ui>
